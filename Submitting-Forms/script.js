@@ -28,7 +28,7 @@ form.addEventListener("submit", (event) => {
     
 
     if (name && email && message) {
-        console.log("✅ All fields are filled!");
+        console.log("All fields are filled!");
         console.log(name, email, message);
 
         const ul = document.createElement("ul");
