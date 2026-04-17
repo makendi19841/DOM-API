@@ -1,36 +1,7 @@
-const userScoreElement = document.getElementById("user-score");
-const computerScoreElement = document.getElementById("computer-score");
-const selectionDiv = document.getElementById("selection");
-const resultDivElement = document.getElementById("result");
-const playBtn = document.getElementById("play-button");
-
 let userScore = 0;
 let computerScore = 0;
 let userChoice = null;
 
-selectionDiv.addEventListener("click", (event) => {
-    const button = event.target.closest("button");
-    if (!button) {
-        return;
-    }
-    userChoice = button.id;
-    console.log("User choice:", userChoice);
-
-    if (userChoice) {
-        modifyBtnUI(button);
-    }
-
-});
-
-function modifyBtnUI(btn) {
-
-    // mark the user selection button
-    //selectionDiv.querySelectorAll("button").forEach(btn => btn.style.backgroundColor = ""); // reset all buttons
-    //button.style.backgroundColor = "lightblue"; // highlight selected button
-    selectionDiv.querySelectorAll("button").forEach(btn => btn.style.opacity = "0.5");
-    btn.style.opacity = "1";
-
-}
 
 // Randomly select Rock Paper or Scissors for the computer
 function getComputerChoice() {
@@ -56,13 +27,14 @@ function getWinner(user, computer) {
 }
 
 
-// Play the round and update the score and display the result
-playBtn.addEventListener("click", () => {
-    if (!userChoice) {
-        resultDivElement.textContent = "⚠️ Please select rock, paper, or scissors!";
-        /* alert("Please select Rock, Paper, or Scissors before playing!"); */
+// Determine the winner and update the scores.
+function playGame() {
+    if (!process.argv[2]) {
+        console.log("⚠️ Please select rock, paper, or scissors!");
         return;
     }
+
+    userChoice = process.argv[2].trim().toLowerCase();
 
     const computerChoice = getComputerChoice();
     const winner = getWinner(userChoice, computerChoice);
@@ -70,25 +42,22 @@ playBtn.addEventListener("click", () => {
     const emojis = { rock: "🪨", paper: "📄", scissors: "✂️" };
 
     if (winner === "draw") {
-        resultDivElement.textContent = `Draw! Both chose ${emojis[userChoice]}`;
-        resultDivElement.style.backgroundColor = "#fef3c7"; // yellow
+        console.log(`Draw! Both chose ${emojis[userChoice]}`);
     } else if (winner === "user") {
         userScore++;
-        resultDivElement.textContent = `You win! ${emojis[userChoice]} beats ${emojis[computerChoice]}`;
-        resultDivElement.style.backgroundColor = "#d1fae5"; // green
+        console.log(`You win! ${emojis[userChoice]} beats ${emojis[computerChoice]}`);
     } else {
         computerScore++;
-        resultDivElement.textContent = `You lose! ${emojis[computerChoice]} beats ${emojis[userChoice]}`;
-        resultDivElement.style.backgroundColor = "#fee2e2"; // red
+        console.log(`You lose! ${emojis[computerChoice]} beats ${emojis[userChoice]}`);
     }
 
     // Update scores
-    userScoreElement.textContent = userScore;
-    computerScoreElement.textContent = computerScore;
+    console.log(`Scores - User: ${userScore}, Computer: ${computerScore}`);
+
 
     // Reset selection
     userChoice = null;
-    selectionDiv.querySelectorAll("button").forEach(btn => btn.style.opacity = "1");
 
+};
 
-});
+playGame(); // Start the game when the script runs
