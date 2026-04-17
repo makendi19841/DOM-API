@@ -12,7 +12,7 @@ console.log(words);
 // convert each word to pig latin
 const pigLatinWords = words.map( (word) => {
 
-    // ✅ Step 1 — Separate punctuation from word
+    // Separate punctuation from word
     const punctuation = word.match(/[^a-zA-Z]$/)?.[0] || ""; // capture trailing punctuation
     const cleanWord   = word.replace(/[^a-zA-Z]/g, "");      // remove punctuation
 
